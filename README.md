@@ -39,19 +39,45 @@ Install the whole `skills/goalie` and `skills/goalie-execute` directories, inclu
 
 For Claude project-only installation, use `.claude/skills/<skill-name>` in that project. Do not overwrite locally modified skills without reviewing them. These instructions use the documented [Codex skill mechanism](https://learn.chatgpt.com/docs/build-skills), [Claude Code skills](https://code.claude.com/docs/en/skills), and [Agent Skills format](https://agentskills.io/specification); they are not a claim that every host has been tested end to end.
 
-Then ask:
+## Define or review a goal
+
+In Codex, start a new build:
 
 ```text
 Use $goalie to help me define the first version of a booking app.
 ```
+
+Or define a feature in an existing project:
 
 ```text
 Use $goalie to define CSV export for this existing reports page.
 Inspect the relevant code and tests before asking me questions.
 ```
 
+Or review a goal you already have:
+
 ```text
 Use $goalie to review goals/private-dashboard.md.
+Find unclear behavior and missing completion checks.
+```
+
+In Claude Code, start a new build:
+
+```text
+/goalie Help me define the first version of a booking app.
+```
+
+Or define a feature in an existing project:
+
+```text
+/goalie Define CSV export for this existing reports page.
+Inspect the relevant code and tests before asking me questions.
+```
+
+Or review a goal you already have:
+
+```text
+/goalie Review goals/private-dashboard.md.
 Find unclear behavior and missing completion checks.
 ```
 
@@ -79,10 +105,20 @@ Deliver a working local branch and verify every required check.
 
 These are ordinary-language requests, not a custom flag parser. Files, directories, links, and attachments can supply context. The agent reads them, resolves conflicts, incorporates new mandatory requirements into the completion contract, and records the inputs it used.
 
-The execution loop selects unmet outcomes, implements them, performs the actual checks, records evidence, and continues. It saves state under `.goalie/runs/<goal-id>/` by default. To resume:
+The execution loop selects unmet outcomes, implements them, performs the actual checks, records evidence, and continues. It saves state under `.goalie/runs/<goal-id>/` by default.
+
+To resume in Codex:
 
 ```text
 Use $goalie-execute to resume goals/customer-portal.md.
+The previous state is in .goalie/runs/customer-portal/.
+Check for changed goals and supporting context before continuing.
+```
+
+To resume in Claude Code:
+
+```text
+/goalie-execute Resume goals/customer-portal.md.
 The previous state is in .goalie/runs/customer-portal/.
 Check for changed goals and supporting context before continuing.
 ```
