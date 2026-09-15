@@ -1,0 +1,4 @@
+interface:
+  display_name: "Goalie"
+  short_description: "Turn ideas into goals an agent can verify"
+  default_prompt: "Use $goalie to walk me through defining a goal and clear checks for when the work is finished."
