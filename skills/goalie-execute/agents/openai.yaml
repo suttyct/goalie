@@ -1,0 +1,4 @@
+interface:
+  display_name: "Goalie Execute"
+  short_description: "Build and verify a goal with supporting context"
+  default_prompt: "Use $goalie-execute to implement my goal file, follow the supporting context I provide, and continue until verified or blocked."

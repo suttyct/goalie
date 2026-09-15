@@ -4,7 +4,9 @@ Good changes make the conversation easier or make “finished” less ambiguous.
 
 ## Change the skill
 
-Keep shared behavior in `skills/goalie/SKILL.md`; put conditional detail in the existing references. Preserve short, ordinary-language questions and progressive disclosure. Do not make every user answer questions about authentication, infrastructure, or business metrics.
+Keep planning behavior in `skills/goalie/SKILL.md` and execution behavior in `skills/goalie-execute/SKILL.md`; put conditional detail in each skill's references. Preserve short, ordinary-language questions and progressive disclosure. Do not make every user answer questions about authentication, infrastructure, or business metrics.
+
+Both skills should work without agent-specific commands or another installed skill. Keep host-specific installation details separate. Context is part of execution: required design/stack choices must be followed, conflicts resolved, and changed inputs considered before reusing evidence. Do not claim cross-agent execution has been tested unless an actual run supports that claim.
 
 For an interview change, include a realistic starting request and show the behavior it improves. Check the [behavioral evaluation cases](docs/evaluation.md). Do not rely on keyword matching as proof that an agent follows the skill.
 

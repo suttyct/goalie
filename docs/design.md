@@ -29,10 +29,20 @@ Reviewed on 2026-09-15. These are conceptual influences; Goalie's instructions, 
 
 ## Current limits
 
-- No autonomous runner or native external-loop adapters.
+- The execution skill runs within an active host session; no background runner or native external-loop adapter is included.
 - No automated proof that natural-language requirements are complete or mutually consistent.
 - No verification of artifact contents, reviewer identity, actual user acceptance, or supplied build identity by the helper.
 - No claim of cross-agent behavioral performance from passing Python tests. Human-led trials and actual skill runs remain necessary.
 - No enforcement of a goal's immutability against a hostile writer. The format is designed for cooperative agents with reviewable files.
 
 The next useful improvements should come from real interviews and observed false-completion cases. Add adapters only with a named target format and tests demonstrating that the mapping preserves required behavior and stop conditions.
+
+## Execution and context
+
+The companion `goalie-execute` skill drives implementation using the active agent's existing tools. It preserves the planning/execution distinction while giving users an explicit way to start or resume delivery.
+
+Supporting context has both a meaning and an identity. The journal records whether an input is a required design rule, stack decision, additional requirement, or advisory reference. Input snapshots detect byte changes in relevant local files, including images. Neither hashes nor recorded roles establish authority; the user and applicable instructions determine that.
+
+Additional mandatory outcomes must be reflected in the goal's completion checks. Otherwise an agent could follow the original checklist and miss a requirement added through a supporting document. Conflicts require a recorded resolution, not a hidden precedence guess.
+
+The shared Agent Skills layout supports installation in Codex and Claude Code and use by other compatible hosts. Execution instructions avoid runtime-specific commands. Host capabilities still determine whether a particular project's tests, browser checks, or delivery actions can run.

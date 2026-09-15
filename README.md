@@ -2,7 +2,12 @@
 
 **Turn an idea into a goal an agent can build and verify.**
 
-Goalie is a skill that walks you through what you want to build, how people should use it, what should happen when things go wrong, and how to tell when the work is finished. It handles a new product, a feature in an existing codebase, or a small change.
+Goalie includes two skills for taking a new product, an existing feature, or a small change from intent to verified delivery:
+
+| Skill | Job |
+| --- | --- |
+| [`goalie`](skills/goalie) | Walk through requirements and write an accepted goal with completion checks. |
+| [`goalie-execute`](skills/goalie-execute) | Read that goal and supporting context, then implement, test, record evidence, and continue until verified or blocked. |
 
 You describe the behavior in normal language. Goalie asks focused questions, offers relevant choices, and saves a goal file for your coding agent or agent loop.
 
@@ -20,11 +25,19 @@ The final goal captures the chosen routes and behavior, plus checks for direct l
 - A draft you can resume, with open decisions recorded rather than guessed away.
 - An optional validator and separate evidence record for loops that adopt this contract.
 
-Goalie defines the work. It does not implement your app, run an autonomous loop, or prove that software is correct merely because a document passes validation. Existing loop formats need an explicit mapping; no native Ralph, OpenSpec, or Spec Kit integration is included.
+The planning skill defines the work; the execution skill drives the build-and-check loop inside your active coding agent. It saves progress for resumption, but does not restart a terminated process or install a background runner. A structurally valid document is not proof that the software works. Existing loop formats need an explicit mapping; no native Ralph, OpenSpec, or Spec Kit adapter is included.
 
-## Use the skill
+## Install and use
 
-The portable skill lives in [`skills/goalie`](skills/goalie). Install that whole directory in your agent's skill directory, including its references, assets, and scripts. For a local Codex installation, copy it into `${CODEX_HOME:-$HOME/.codex}/skills/goalie`. Do not overwrite a locally modified installation without reviewing it.
+Install the whole `skills/goalie` and `skills/goalie-execute` directories, including their supporting files. Each skill can also be used on its own.
+
+| Host | Personal installation | Invocation |
+| --- | --- | --- |
+| Codex | `${CODEX_HOME:-$HOME/.codex}/skills/<skill-name>` | `$goalie` or `$goalie-execute` |
+| Claude Code | `~/.claude/skills/<skill-name>` | `/goalie` or `/goalie-execute` |
+| Other Agent Skills hosts | The host's configured skills directory | The host's skill invocation mechanism |
+
+For Claude project-only installation, use `.claude/skills/<skill-name>` in that project. Do not overwrite locally modified skills without reviewing them. These instructions use the documented [Codex skill mechanism](https://learn.chatgpt.com/docs/build-skills), [Claude Code skills](https://code.claude.com/docs/en/skills), and [Agent Skills format](https://agentskills.io/specification); they are not a claim that every host has been tested end to end.
 
 Then ask:
 
@@ -42,7 +55,39 @@ Use $goalie to review goals/private-dashboard.md.
 Find unclear behavior and missing completion checks.
 ```
 
-You can also give an agent the path to [`SKILL.md`](skills/goalie/SKILL.md) directly. Hosts vary in skill discovery and question interfaces. The skill needs no specific connector, network service, or runtime package. The optional helper requires Python 3.10 or later.
+You can also give an agent the path to either skill's `SKILL.md` directly. Hosts vary in skill discovery and question interfaces. Neither skill needs a specific connector or network service. The optional helpers require Python 3.10 or later; execution itself requires project editing and verification capabilities.
+
+## Execute a goal with supporting context
+
+In Codex:
+
+```text
+Use $goalie-execute to implement goals/customer-portal.md in this repository.
+Follow docs/design-guide.md and the mockups in designs/portal/.
+Use the stack choices in docs/architecture.md.
+Also account for docs/supporting-requirements.md.
+Deliver a working local branch and verify every required check.
+```
+
+In Claude Code:
+
+```text
+/goalie-execute Implement goals/customer-portal.md. Follow docs/design-guide.md,
+designs/portal/, docs/architecture.md, and docs/supporting-requirements.md.
+Deliver a working local branch and verify every required check.
+```
+
+These are ordinary-language requests, not a custom flag parser. Files, directories, links, and attachments can supply context. The agent reads them, resolves conflicts, incorporates new mandatory requirements into the completion contract, and records the inputs it used.
+
+The execution loop selects unmet outcomes, implements them, performs the actual checks, records evidence, and continues. It saves state under `.goalie/runs/<goal-id>/` by default. To resume:
+
+```text
+Use $goalie-execute to resume goals/customer-portal.md.
+The previous state is in .goalie/runs/customer-portal/.
+Check for changed goals and supporting context before continuing.
+```
+
+See [execution details](docs/execution.md) for context handling, evidence, capability limits, and portability.
 
 ## How the conversation works
 

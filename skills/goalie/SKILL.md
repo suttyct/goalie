@@ -70,7 +70,7 @@ Run `python3 <skill-dir>/scripts/validate_goal.py <goal-file>` if the default fo
 
 Summarize what will be built, what is excluded, the important decisions, and how it will be checked. Invite corrections or acceptance if still needed. Record existing explicit acceptance or delegated decision authority rather than requesting it again. Set `status` to `ready` only after material blockers are resolved and acceptance is grounded in actual user input. Validate with `--ready`.
 
-Return the file location, readiness, and any remaining decision. Do not start implementation unless separately asked. If file tools are unavailable, provide the complete file contents and say they have not been saved.
+Return the file location, readiness, and any remaining decision. When the user wants delivery, hand off the accepted goal and supporting context to `goalie-execute` if available, or another capable implementation agent. Do not start implementation unless separately asked. If file tools are unavailable, provide the complete file contents and say they have not been saved.
 
 ## Revisions and portability
 
